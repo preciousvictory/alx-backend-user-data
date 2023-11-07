@@ -21,6 +21,7 @@ if auth_type == 'auth':
 
 @app.before_request
 def before_request():
+    ''' validate all requests to secure the API '''
     if auth:
         excluded_paths = [
             '/api/v1/status/',
