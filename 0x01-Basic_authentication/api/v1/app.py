@@ -24,7 +24,8 @@ if auth_type == 'basic_auth':
 
 @app.before_request
 def before_request():
-    ''' validate all requests to secure the API '''
+    ''' validate all requests to secure the API
+    '''
     if auth:
         excluded_paths = [
             '/api/v1/status/',
