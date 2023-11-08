@@ -5,6 +5,7 @@ from flask import request
 from api.v1.auth.auth import Auth
 import base64
 import binascii
+import re
 
 
 class BasicAuth(Auth):
@@ -39,3 +40,17 @@ class BasicAuth(Auth):
             return None
 
         return decoded.decode('utf-8')
+
+    def extract_user_credentials(self, decoded_base64_authorization_header: str)\
+            -> (str, str):
+        """returns the user email and password from the Base64 decoded value.
+        """
+        if decoded_base64_authorization_header is None or \
+                type(decoded_base64_authorization_header) is not str:
+            return None, None
+
+        if not re.search(r':', decoded_base64_authorization_header):
+            return None, None
+
+        credentials = decoded_base64_authorization_header.split(':')
+        return credentials[0], credentials[1]
