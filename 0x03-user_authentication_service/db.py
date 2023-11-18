@@ -19,8 +19,7 @@ class DB:
         """Initialize a new DB instance
         """
         self._engine = create_engine("sqlite:///a.db", echo=True)
-        Base.metadata.drop_all(self._engine)
-        
+        Base.metadata.drop_all(self._engine) 
         Base.metadata.create_all(self._engine)
         self.__session = None
 
@@ -46,10 +45,12 @@ class DB:
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
+        """find_user_by.
+        """
         for attr in kwargs.keys():
             if not hasattr(User, attr):
                 raise InvalidRequestError()
-        session = self._session
+        session = self._sessior
         try:
             return session.query(User).filter_by(**kwargs).one()
         except Exception:
