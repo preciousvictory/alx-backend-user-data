@@ -46,13 +46,11 @@ class DB:
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
-        query = self._session.query(User)
-        for attr, value in kwargs.items():
-            if hasattr(User, attr):
-                results = query.filter(getattr(User, attr) == value).first()
-            else:
-                raise InvalidRequestError
-        if results is None:
+        for attr in kwargs.keys():
+            if not hasattr(User, attr):
+                raise InvalidRequestError()
+        session = self._session
+        try:
+            return session.query(User).filter_by(**kwargs).one()
+        except Exception:
             raise NoResultFound
-
-        return results
