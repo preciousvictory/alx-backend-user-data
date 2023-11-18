@@ -49,10 +49,9 @@ class DB:
         query = self._session.query(User)
         for attr, value in kwargs.items():
             if hasattr(User, attr):
-                query = query.filter( getattr(User,attr)==value )
+                results = query.filter(getattr(User, attr) == value).first()
             else:
                 raise InvalidRequestError
-        results = query.first()
         if results is None:
             raise NoResultFound
 
